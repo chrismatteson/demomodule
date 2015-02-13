@@ -21,7 +21,7 @@ class demomodule::user (
     require => User["$username"],
   }
 
-  group { 'wheel':
+  group { 'sysadmins':
     ensure => present
   }
 }
