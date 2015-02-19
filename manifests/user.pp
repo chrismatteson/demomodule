@@ -7,9 +7,9 @@ class demomodule::user (
     ensure     => present,
     home       => "/home/$username",
     managehome => true,
-    comment    => "$username account created by demomodule::user",
+    comment    => "$username account created and managed by puppet",
     forcelocal => true,
-    groups     => 'wheel',
+    groups     => 'sysadmins',
     shell      => '/bin/bash',
     password   => "$password",
   }
