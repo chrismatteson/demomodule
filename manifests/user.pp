@@ -11,7 +11,7 @@ class demomodule::user (
     forcelocal => true,
     groups     => 'sysadmins',
     shell      => '/bin/bash',
-    password   => "$password",
+    password   => generate('/bin/sh','-c',"openssl passwd -1 ${password} | tr -d '\n'"),
   }
 
   file_line { "Puppet Path":

@@ -1,4 +1,5 @@
 class { 'demomodule::user':
   username => 'cmatteson',
-  password => '$1$Tz0HtbMr$DfAhRUKkbLaVpwrDTwzr1.',
+  password => 'puppetlabs',
+#  password => '$1$Tz0HtbMr$DfAhRUKkbLaVpwrDTwzr1.',
 }
