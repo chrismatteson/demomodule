@@ -1,10 +1,11 @@
 class demomodule::user (
   $username,
-  $password,
+  $password = 'undef',
+  $ensure = 'present',
   ){
   
   user { "$username":
-    ensure     => present,
+    ensure     => $ensure,
     home       => "/home/$username",
     managehome => true,
     comment    => "$username account created and managed by puppet",
@@ -15,13 +16,13 @@ class demomodule::user (
   }
 
   file_line { "Puppet Path":
-    ensure  => present,
+    ensure  => $ensure,
     line    => 'PATH=$PATH:/opt/puppet/bin/',
     path    => "/home/$username/.bashrc",
     require => User["$username"],
   }
 
   group { 'sysadmins':
-    ensure => present
+    ensure => $ensure,
   }
 }
