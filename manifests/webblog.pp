@@ -1,46 +1,15 @@
-class profiles::webblog {
+class demomodule::webblog {
   include apache
   include apache::mod::php
-  class { 'wordpress' :
-  }
-  include mysql::server
-  #  class { '::mysql::server':
-  #  root_password => 'wordpress',
-  #  databases => {
-  #    'wordpress' => {
-  #      ensure => 'present',
-  #      charset => 'utf8',
-  #    }
-  #  },
-  #  users => {
-  #    'wordpress' => {
-  #      ensure => present,
-  #      password_has => mysql_password('wordpress'),
-  #    }
-  #  },
-  #  grants => {
-  #    'wordpress' => {
-  #      ensure => present,
-  #      options => ['GRANT'],
-  #      privileges => ['ALL'],
-  #      table => 'wordpress',
-  #      user => 'wordpress@localhost'
-  #    }
-  #  },
-  #}
+  contain epel
+  contain mysql::server
   class { 'mysql::client':
-    require => Class['mysql::server'],
     bindings_enable => true,
   }
-  file { '/var/www/html/wp-content/plugins/blogger-importer/':
-    ensure => directory,
-    source => "puppet:///modules/demomodule/blogger-importer",
-    recurse => true,
+  contain mysql::client 
+  package { 'wget':
+    ensure => '1.12-5.el6_6.1',
   }
-
-  user { 'wordpress':
-    ensure => 'present',
-    password => 'wordpress',
-  }
-
+  contain wordpress
+  contain demomodule::webblog::config
 }
