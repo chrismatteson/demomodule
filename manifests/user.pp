@@ -15,11 +15,13 @@ class demomodule::user (
     password   => $password #generate('/bin/sh','-c',"openssl passwd -1 ${password} | tr -d '\n'"),
   }
 
-  file_line { "Puppet Path":
-    ensure  => $ensure,
-    line    => 'PATH=$PATH:/opt/puppet/bin/',
-    path    => "/home/$username/.bashrc",
-    require => User["$username"],
+  unless kernel == windows {
+    file_line { "Puppet Path":
+      ensure  => $ensure,
+      line    => 'PATH=$PATH:/opt/puppet/bin/',
+      path    => "/home/$username/.bashrc",
+      require => User["$username"],
+    }
   }
 
   group { 'sysadmins':
