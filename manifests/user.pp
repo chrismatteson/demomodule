@@ -15,7 +15,7 @@ class demomodule::user (
     password   => $password #generate('/bin/sh','-c',"openssl passwd -1 ${password} | tr -d '\n'"),
   }
 
-  unless kernel == windows {
+  unless $::kernel == windows {
     file_line { "Puppet Path":
       ensure  => $ensure,
       line    => 'PATH=$PATH:/opt/puppet/bin/',
