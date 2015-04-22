@@ -19,9 +19,4 @@ class demomodule::webblog {
   Class['wordpress'] ->
   Class['demomodule::webblog::config']
 
-  firewall { '100 allow http':
-    port => 80,
-    proto => tcp,
-    action => 'accept',
-  }
 }
