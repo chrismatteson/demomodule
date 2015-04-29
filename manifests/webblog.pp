@@ -19,4 +19,13 @@ class demomodule::webblog {
   Class['wordpress'] ->
   Class['demomodule::webblog::config']
 
+  @@nagios_service { "check_http_${hostname}":
+    use       => 'check-http',
+    host_name => $fqdn,
+  }
+
+  @@nagios_service { "check_http_processes_${hostname}":
+    use       => 'remote-nrpe-httpd-procs',
+    host_name => $fqdn,
+  }
 }
