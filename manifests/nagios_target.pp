@@ -4,7 +4,7 @@ class demomodule::nagios_target {
     ensure  => 'present',
     alias   => $hostname,
     address => $ipaddress_eth1,
-    use     => 'generic-host',
+    use     => 'linux-server',
   }
 
   @@nagios_hostextinfo { $fqdn:
