@@ -12,13 +12,20 @@ class demomodule::nagios_server (
   include apache::mod::php
   include apache::mod::cgi
   Class['epel'] ->
-  package { ['nagios', 'nagios-plugins-all', 'nagios-plugins-nrpe', 'nrpe']:
+  package { 'nagios':
     ensure => 'present',
   } ->
+  file { '/etc/nagios/objects/commands.cfg':
+    ensure => 'file',
+    source => "puppet:///modules/${module_name}/commands.cfg",
+    mode   => '0644',
+  }
   service { 'nagios':
     ensure => 'running',
   }
+
   contain epel
+  contain demomodule::nagios_common
 
   file { '/var/www/html/nagios':
     ensure => 'link',
@@ -42,8 +49,28 @@ class demomodule::nagios_server (
     match  => '/use_authentication=/',
   }
 
-  Nagios_host <<| |>>
-  Nagios_service <<| |>>
-  Nagios_hostextinfo <<| |>>
+  Nagios_host <<| |>> {
+    target  => '/etc/nagios/conf.d/nagios_host.cfg',
+    mode    => '0644',
+    require => Class['demomodule::nagios_common'],
+    notify  => Service['nagios'],
+  }
+  Nagios_service <<| |>> {
+    target  => '/etc/nagios/conf.d/nagios_service.cfg',
+    mode    => '0644',
+    require => Class['demomodule::nagios_common'],
+    notify  => Service['nagios'],
+  }
+  Nagios_hostextinfo <<| |>> {
+    target  => '/etc/nagios/conf.d/nagios_hostextinfo.cfg',
+    mode    => '0644',
+    require => Class['demomodule::nagios_common'],
+    notify  => Service['nagios'],
+  }
 
+  firewall { '100 allow http':
+    port => 80,
+    proto => tcp,
+    action => 'accept',
+  }
 }

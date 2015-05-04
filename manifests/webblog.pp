@@ -20,12 +20,16 @@ class demomodule::webblog {
   Class['demomodule::webblog::config']
 
   @@nagios_service { "check_http_${hostname}":
-    use       => 'check-http',
-    host_name => $fqdn,
+    use                 => 'local-service',
+    service_description => 'http',
+    check_command       => 'check_http',
+    host_name           => $fqdn,
   }
 
   @@nagios_service { "check_http_processes_${hostname}":
-    use       => 'remote-nrpe-httpd-procs',
+    use       => 'local-service',
+    service_description => 'check httpd procs',
+    check_command => 'check_nrpe!check_httpd_procs',
     host_name => $fqdn,
   }
 }
