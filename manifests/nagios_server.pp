@@ -46,7 +46,7 @@ class demomodule::nagios_server (
     ensure => 'present',
     path   => '/etc/nagios/cgi.cfg',
     line   => 'use_authentication=0',
-    match  => '/use_authentication=/',
+    match  => '^use_authentication=',
   }
 
   Nagios_host <<| |>> {
