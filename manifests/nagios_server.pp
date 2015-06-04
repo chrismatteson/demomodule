@@ -79,6 +79,7 @@ class demomodule::nagios_server (
   resources { ['nagios_host', 'nagios_service', 'nagios_hostextinfo']:
     purge  => 'true',
     notify => Service['nagios'],
+    tag    => 'puppet',
   }
 
   firewall { '100 allow http':

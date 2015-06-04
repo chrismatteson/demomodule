@@ -63,5 +63,6 @@ class demomodule::nagios_target {
     service_description => 'check all disks',
     check_command => 'check_nrpe!check_all_disks',
     host_name => $fqdn,
+    tag => 'puppet',
   }
 }
