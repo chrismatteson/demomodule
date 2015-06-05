@@ -10,6 +10,8 @@ class demomodule::r10k-setup {
   }
 
   class { 'r10k::webhook':
+    user      => 'root',
+    group     => '0',
     require   => Class['r10k::webhook::config'],
   }
 
@@ -23,13 +25,12 @@ class demomodule::r10k-setup {
 #    provider     => 'github',
 #  }
 
-  git_deploy_key { 'add_deploy_key_to_puppet_control':
-    ensure       => 'present',
-    name         => $::fqdn,
-    path         => '/root/.ssh/id_dsa.pub',
-    token        => '8ce554193cc933072433917975b67dca624ac4c0',
-    server_url   => 'https://api.github.com/',
-    disable_ssl_verify => true,
-    provider     => 'github',
-  }
+#  git_deploy_key { 'add_deploy_key_to_puppet_control':
+#    ensure       => 'present',
+#    name         => $::fqdn,
+#    path         => '/root/.ssh/id_dsa.pub',
+#    token        => '8ce554193cc933072433917975b67dca624ac4c0',
+#    server_url   => 'https://api.github.com/',
+#    provider     => 'github',
+#  }
 }
