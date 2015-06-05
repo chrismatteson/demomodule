@@ -25,7 +25,6 @@ class demomodule::r10k-setup {
 #    provider     => 'github',
 #  }
 
-<<<<<<< HEAD
 #  git_deploy_key { 'add_deploy_key_to_puppet_control':
 #    ensure       => 'present',
 #    name         => $::fqdn,
