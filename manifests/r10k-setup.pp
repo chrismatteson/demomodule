@@ -29,7 +29,6 @@ class demomodule::r10k-setup {
     path         => '/root/.ssh/id_dsa.pub',
     token        => '8ce554193cc933072433917975b67dca624ac4c0',
     server_url   => 'https://api.github.com/',
-    disable_ssl_verify => true,
     provider     => 'github',
   }
 }
