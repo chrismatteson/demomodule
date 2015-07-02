@@ -48,13 +48,13 @@ class demomodule::profile::oracle::db (
     ensure  => present,
   }
 
-  staging::file { 'linuxamd64_12c_database_1or2.zip':
+  staging::file { 'linuxamd64_12c_database_1of2.zip':
     source => $oracle_disk1_location,
-    target => $oracle_download_dir,
+    target => "$oracle_download_dir/linuxamd64_12c_database_1of2.zip",
   }
   staging::file { 'linuxamd64_12c_database_2of2.zip':
     source => $oracle_disk2_location,
-    target => $oracle_download_dir,
+    target => "$oracle_download_dir/linuxamd64_12c_database_2of2.zip",
   }
 
   oradb::installdb{ '12.1.0.1_Linux-x86-64':

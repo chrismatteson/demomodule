@@ -35,15 +35,15 @@ class demomodule::profile::oracle::em (
 
   staging::file { 'em12104_linux64_disk1.zip':
     source => $em12104_disk1_location,
-    target => $oracle_download_dir,
+    target => "$oracle_download_dir/em12104_linux64_disk1.zip",
   }
   staging::file { 'em12104_linux64_disk2.zip':
     source => $em12104_disk2_location,
-    target => $oracle_download_dir,
+    target => "$oracle_download_dir/em12104_linux64_disk2.zip",
   }
   staging::file { 'em12104_linux64_disk3.zip':
     source => $em12104_disk3_location,
-    target => $oracle_download_dir,
+    target => "$oracle_download_dir/em12104_linux64_disk3.zip",
   }
 
   oradb::installem{ 'em12104':
