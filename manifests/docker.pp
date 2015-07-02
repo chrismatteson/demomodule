@@ -12,6 +12,6 @@ class demomodule::docker {
 
   docker::run { 'goodbyecruelworld':
     image   => 'ubuntu',
-    command => '/bin/sh -c "while true: do echo goodbye cruel world; sleep 1; done"',
+    command => '/bin/sh -c "while true; do echo goodbye cruel world; sleep 1; done"',
   }
 }
