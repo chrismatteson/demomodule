@@ -1,4 +1,7 @@
 class demomodule::profile::oracle::db (
+  $oracle_disk1_location = 'http://download.oracle.com/otn/linux/oracle12c/121010/linuxamd64_12c_database_1of2.zip',
+  $oracle_disk2_location = 'http://download.oracle.com/otn/linux/oracle12c/121010/linuxamd64_12c_database_2of2.zip',
+
   # global oracle vars
   $oracle_base_dir ='/oracle',
   $oracle_home_dir ='/oracle/product/12.1/db',
@@ -45,6 +48,15 @@ class demomodule::profile::oracle::db (
     ensure  => present,
   }
 
+  staging::file { 'linuxamd64_12c_database_1or2.zip':
+    source => $oracle_disk1_location,
+    target => $oracle_download_dir,
+  }
+  staging::file { 'linuxamd64_12c_database_2of2.zip':
+    source => $oracle_disk2_location,
+    target => $oracle_download_dir,
+  }
+
   oradb::installdb{ '12.1.0.1_Linux-x86-64':
     version                => '12.1.0.1',
     file                   => 'linuxamd64_12c_database',
@@ -61,6 +73,7 @@ class demomodule::profile::oracle::db (
     downloadDir            => $oracle_download_dir,
     remoteFile             => false,
     puppetDownloadMntPoint => $oracle_source,
+    require                => Staging::File['linuxamd64_12c_database_1of2.zip','linuxamd64_12c_database_2of2.zip'],
   }
 
   oradb::net{ 'config net8':
