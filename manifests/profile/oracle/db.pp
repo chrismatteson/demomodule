@@ -10,7 +10,7 @@ class demomodule::profile::oracle::db (
   $oracle_os_user = 'oracle',
   $oracle_os_group = 'dba',
   $oracle_download_dir = '/var/tmp/install',
-  $oracle_source = '/software',
+  $oracle_source = '/var/tmp/install',
   $oracle_database_name = 'emrepos',
   $oracle_database_domain_name = 'example.com',
   $oracle_database_service_name = 'emrepos.example.com',
@@ -38,9 +38,9 @@ class demomodule::profile::oracle::db (
     managehome  => true,
   }
 
-  $install = ['binutils.x86_64', 'compat-libstdc++-33.x86_64', 'glibc.x86_64','ksh.x86_64','libaio.x86_64',
-              'libgcc.x86_64', 'libstdc++.x86_64', 'make.x86_64','compat-libcap1.x86_64', 'gcc.x86_64',
-              'gcc-c++.x86_64','glibc-devel.x86_64','libaio-devel.x86_64','libstdc++-devel.x86_64',
+  $install = ['unzip','binutils.x86_64', 'compat-libstdc++-33.x86_64', 'glibc.x86_64','ksh.x86_64',
+              'libaio.x86_64','libgcc.x86_64', 'libstdc++.x86_64', 'make.x86_64','compat-libcap1.x86_64',
+              'gcc.x86_64','gcc-c++.x86_64','glibc-devel.x86_64','libaio-devel.x86_64','libstdc++-devel.x86_64',
               'sysstat.x86_64','unixODBC-devel','glibc.i686','libXext.x86_64','libXtst.x86_64','xorg-x11-xauth']
 
 
@@ -48,13 +48,19 @@ class demomodule::profile::oracle::db (
     ensure  => present,
   }
 
+  file { '/var/tmp/install':
+    ensure => 'directory',
+  }
+
   staging::file { 'linuxamd64_12c_database_1of2.zip':
-    source => $oracle_disk1_location,
-    target => "$oracle_download_dir/linuxamd64_12c_database_1of2.zip",
+    source  => $oracle_disk1_location,
+    target  => "$oracle_download_dir/linuxamd64_12c_database_1of2.zip",
+    require => File['/var/tmp/install'],
   }
   staging::file { 'linuxamd64_12c_database_2of2.zip':
     source => $oracle_disk2_location,
     target => "$oracle_download_dir/linuxamd64_12c_database_2of2.zip",
+    require => File['/var/tmp/install'],
   }
 
   oradb::installdb{ '12.1.0.1_Linux-x86-64':
@@ -134,33 +140,39 @@ class demomodule::profile::oracle::db (
   }
 
   ora_init_param{ 'SPFILE/OPEN_CURSORS@emrepos':
-    ensure => 'present',
-    value  => '600',
+    ensure  => 'present',
+    value   => '600',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param{ 'SPFILE/processes@emrepos':
     ensure => 'present',
     value  => '1000',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param{'SPFILE/job_queue_processes@emrepos':
     ensure  => present,
     value   => '20',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param{'SPFILE/session_cached_cursors@emrepos':
     ensure  => present,
     value   => '200',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param{'SPFILE/db_securefile@emrepos':
     ensure  => present,
     value   => 'PERMITTED',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param{'SPFILE/memory_target@emrepos':
     ensure  => present,
     value   => '3000M',
+    require => Oradb::Autostartdatabase['autostart oracle'],
   }
 
   ora_init_param { 'SPFILE/PGA_AGGREGATE_TARGET@emrepos':
