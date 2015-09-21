@@ -13,7 +13,7 @@ class demomodule::nagios_server (
   include apache::mod::cgi
   file_line { 'change default':
     ensure  => 'present',
-    path    => '/opt/puppet/lib/ruby/site_ruby/1.9.1/puppet/util/nagios_maker.rb',
+    path    => '/opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/util/nagios_maker.rb',
     line    => 'target = "/etc/nagios/conf.d/#{full_name.to_s}.cfg"',
     match   => 'target = "/etc/nagios/',
   }
