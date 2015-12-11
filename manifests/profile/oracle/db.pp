@@ -27,7 +27,7 @@ class demomodule::profile::oracle::db (
 
   user { 'oracle' :
     ensure      => present,
-    uid         => 500,
+#    uid         => 500,
     gid         => 'oinstall',
     groups      => $groups,
     shell       => '/bin/bash',
@@ -66,34 +66,33 @@ class demomodule::profile::oracle::db (
   oradb::installdb{ '12.1.0.1_Linux-x86-64':
     version                => '12.1.0.1',
     file                   => 'linuxamd64_12c_database',
-    databaseType           => 'EE',
-    oracleBase             => $oracle_base_dir,
-    oracleHome             => $oracle_home_dir,
-    userBaseDir            => '/home',
-    createUser             => false,
-    bashProfile            => false,
+    database_type           => 'EE',
+    oracle_base             => $oracle_base_dir,
+    oracle_home             => $oracle_home_dir,
+    user_base_dir            => '/home',
+    bash_profile            => false,
     user                   => $oracle_os_user,
     group                  => $oracle_os_group,
     group_install          => 'oinstall',
     group_oper             => 'oper',
-    downloadDir            => $oracle_download_dir,
-    remoteFile             => false,
-    puppetDownloadMntPoint => $oracle_source,
+    download_dir            => $oracle_download_dir,
+    remote_file             => false,
+    puppet_download_mnt_point => $oracle_source,
     require                => Staging::File['linuxamd64_12c_database_1of2.zip','linuxamd64_12c_database_2of2.zip'],
   }
 
   oradb::net{ 'config net8':
-    oracleHome   => $oracle_home_dir,
+    oracle_home   => $oracle_home_dir,
     version      => '12.1',
     user         => $oracle_os_user,
     group        => $oracle_os_group,
-    downloadDir  => $oracle_download_dir,
+    download_dir  => $oracle_download_dir,
     require      => Oradb::Installdb['12.1.0.1_Linux-x86-64'],
   }
 
   oradb::listener{'start listener':
-    oracleBase   => $oracle_base_dir,
-    oracleHome   => $oracle_home_dir,
+    oracle_base   => $oracle_base_dir,
+    oracle_home   => $oracle_home_dir,
     user         => $oracle_os_user,
     group        => $oracle_os_group,
     action       => 'start',
@@ -101,41 +100,41 @@ class demomodule::profile::oracle::db (
   }
 
   oradb::database{ 'oraDb':
-    oracleBase              => $oracle_base_dir,
-    oracleHome              => $oracle_home_dir,
+    oracle_base              => $oracle_base_dir,
+    oracle_home              => $oracle_home_dir,
     version                 => '12.1',
     user                    => $oracle_os_user,
     group                   => $oracle_os_group,
-    downloadDir             => $oracle_download_dir,
+    download_dir             => $oracle_download_dir,
     action                  => 'create',
-    dbName                  => $oracle_database_name,
-    dbDomain                => $oracle_database_domain_name,
-    sysPassword             => $oracle_database_sys_password,
-    systemPassword          => $oracle_database_system_password,
-    dataFileDestination     => "/oracle/oradata",
-    recoveryAreaDestination => "/oracle/flash_recovery_area",
-    characterSet            => "AL32UTF8",
-    nationalCharacterSet    => "UTF8",
-    emConfiguration         => 'NONE',
-    memoryTotal             => '2500',
-    sampleSchema            => 'FALSE',
-    databaseType            => "MULTIPURPOSE",
+    db_name                  => $oracle_database_name,
+    db_domain                => $oracle_database_domain_name,
+    sys_password             => $oracle_database_sys_password,
+    system_password          => $oracle_database_system_password,
+    data_file_destination     => "/oracle/oradata",
+    recovery_area_destination => "/oracle/flash_recovery_area",
+    character_set            => "AL32UTF8",
+    nationalcharacter_set    => "UTF8",
+    em_configuration         => 'NONE',
+    memory_total             => '2500',
+    sample_schema            => 'FALSE',
+    database_type            => "MULTIPURPOSE",
     require                 => Oradb::Listener['start listener'],
   }
 
   oradb::dbactions{ 'start oraDb':
-    oracleHome              => $oracle_home_dir,
+    oracle_home              => $oracle_home_dir,
     user                    => $oracle_os_user,
     group                   => $oracle_os_group,
     action                  => 'start',
-    dbName                  => $oracle_database_name,
+    db_name                  => $oracle_database_name,
     require                 => Oradb::Database['oraDb'],
   }
 
   oradb::autostartdatabase{ 'autostart oracle':
-    oracleHome              => $oracle_home_dir,
+    oracle_home              => $oracle_home_dir,
     user                    => $oracle_os_user,
-    dbName                  => $oracle_database_name,
+    db_name                  => $oracle_database_name,
     require                 => Oradb::Dbactions['start oraDb'],
   }
 
