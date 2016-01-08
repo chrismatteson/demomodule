@@ -25,6 +25,19 @@ class demomodule::profile::oracle::db (
     ensure      => present,
   }
 
+  file_line { 'tmpfs':
+    path   => '/etc/fstab',
+    line   => 'tmpfs                   /dev/shm                tmpfs   size=6g        0 0',
+    match  => '^tmpfs                   /dev/shm                tmpfs',
+    notify => Exec['remount tmpfs'],
+  }
+
+  exec { 'remount tmpfs':
+    command     => '/bin/mount -o remount /dev/shm',
+    refreshonly => true,
+    before      => Oradb::Installdb['12.1.0.1_Linux-x86-64'],
+  }
+
   user { 'oracle' :
     ensure      => present,
 #    uid         => 500,
