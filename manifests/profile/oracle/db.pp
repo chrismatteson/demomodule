@@ -12,9 +12,9 @@ class demomodule::profile::oracle::db (
   $oracle_download_dir = '/var/tmp/install',
   $oracle_source = '/var/tmp/install',
   $oracle_database_name = 'emrepos',
-  $oracle_database_domain_name = 'example.com',
-  $oracle_database_service_name = 'emrepos.example.com',
-  $oracle_database_host = 'emrepos.example.com:1521',
+  $oracle_database_domain_name = 'pdx.puppetlabs.demo',
+  $oracle_database_service_name = 'emrepos.pdx.puppetlabs.demo',
+  $oracle_database_host = 'emrepos.pdx.puppetlabs.demo:1521',
   $oracle_database_sys_password = 'Welcome01',
   $oracle_database_system_password = 'Welcome01',
   ){
