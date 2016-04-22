@@ -1,4 +1,4 @@
-class demomodule::rspec-puppet {
+class demomodule::rspec_puppet {
 
   package { ['rspec-puppet', 'puppetlabs_spec_helper']:
     ensure   => 'present',

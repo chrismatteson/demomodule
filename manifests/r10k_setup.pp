@@ -1,4 +1,4 @@
-class demomodule::r10k-setup {
+class demomodule::r10k_setup {
 
   class { 'r10k':
     remote => 'git@github.com:chrismatteson/seteam-puppet-environments.git',

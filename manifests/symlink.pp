@@ -1,5 +1,5 @@
 class demomodule::symlink (
-$binaries = ["facter", "hiera", "mco", "puppet", "puppetserver"]
+  Array $binaries = ["facter", "hiera", "mco", "puppet", "puppetserver"]
 ) {
 
 # function call with lambda:
