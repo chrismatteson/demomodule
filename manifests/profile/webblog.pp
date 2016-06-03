@@ -12,9 +12,6 @@ class demomodule::profile::webblog {
   Class['epel'] ->
   Class['mysql::server'] ->
   Class['mysql::client'] ->
-  package { 'wget':
-    ensure => '1.12-5.el6_6.1',
-  } ->
   Class['wordpress']
 
   @@nagios_service { "check_http_${hostname}":
