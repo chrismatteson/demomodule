@@ -25,7 +25,39 @@ class demomodule::accounts (
   $groups = hiera_hash('groups_hash',{}),
 ) {
 
+  $accounts.each |$key, $value| {
+    accounts::user { $key:
+      ensure               => $value['ensure'],
+      shell                => $value['shell'],
+      comment              => $value['comment'],
+      home                 => $value['home'],
+      home_mode            => $value['home_mode'],
+      uid                  => $value['uid'],
+      gid                  => $value['gid'],
+      groups               => $value['groups'],
+      membership           => $value['membership'],
+      password             => $value['password'],
+      locked               => $value['locked'],
+      sshkeys              => $value['sshkeys'],
+      managehome           => $value['managehome'],
+      bashrc_content       => $value['bashrc_content'],
+      bash_profile_content => $value['bash_profile_content'],
+    }
+  }
 
-  create_resources(accounts::user, $accounts)
-  create_resources(group, $groups)
+  $groups.each |$key, $value| {
+    group { $key:
+      ensure => $value['ensure'],
+      allowdupe => $value['allowdupe'],
+      attribute_membership => $value['attribute_membership'],
+      attributes           => $value['attributes'],
+      auth_membership      => $value['auth_membership'],
+      forcelocal           => $value['forcelocal'],
+      gid                  => $value['gid'],
+      ia_load_module       => $value['ia_load_module'],
+      members              => $value['members'],
+      provider             => $value['provider'],
+      system               => $value['system'],
+    }
+  }
 }
