@@ -1,5 +1,5 @@
 class demomodule::security (
-  $auditsetting = ['Failure'],
+  $auditsetting = 'Failure,Success',
   $logonusers = 'BUILTIN_ADMINISTRATORS,BUILTIN_USERS,BACKUP_OPERATORS,TEST_USERS',
   $rasautoensure = 'running',
   $rasautoenable = true,
