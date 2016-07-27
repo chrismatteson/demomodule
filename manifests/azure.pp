@@ -7,7 +7,7 @@ class demomodule::azure (
 #    
 ) {
 
-  include ::azure
+#  include ::azure
 
   azure_vm { 'test':
     ensure => present,
