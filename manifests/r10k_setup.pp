@@ -1,7 +1,7 @@
 class demomodule::r10k_setup {
 
   class { 'r10k':
-    remote => 'git@github.com:chrismatteson/seteam-puppet-environments.git',
+    remote => 'git@gitlab.inf.puppet.vm:puppet/control-repo.git',
   }
 
   class { 'r10k::webhook::config':
