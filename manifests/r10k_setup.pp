@@ -1,7 +1,11 @@
 class demomodule::r10k_setup {
 
   class { 'r10k':
-    remote => 'git@gitlab.inf.puppet.vm:puppet/control-repo.git',
+    remote       => 'git@gitlab.inf.puppet.vm:puppet/control-repo.git',
+    git_settings => {
+      'provider'    => 'rugged',
+      'private_key' => '/etc/puppetlabs/puppetserver/ssh/id-control_repo.rsa',
+    },
   }
 
   class { 'r10k::webhook::config':
